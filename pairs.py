@@ -24,10 +24,6 @@ class Pairs(object):
                        )
 
     @classmethod
-    def user_data_path(cls):
-        return cls.__USER_DATA_PATH
-
-    @classmethod
     def __open_driver(cls, driver_path, headless):
         options = Options()
         if headless:
