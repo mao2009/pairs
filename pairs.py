@@ -67,10 +67,17 @@ class Pairs(object):
         code_text_box = cls.__select_element(driver, code_element_name, 'name')
         cls.__send_key(code, code_text_box)
 
-    def __init__(self, driver_path='chromedriver', headless=False, setting_path='setting.ini'):
+    def __init__(self, driver_path='chromedriver', headless=None, setting_path='setting.ini'):
         self.__driver_path = driver_path
-        self.__headless = headless
         self.__config = configparser.ConfigParser()
+        if headless is None:
+            if self.__config['BROWSER']['HEADLESS'] in ['true', 'True']:
+                self.__headless = True
+            else:
+                self.__headless = False
+        else:
+            self.__headless = headless
+
         self.__config.read(setting_path)
         self.__driver = self.__open_driver(driver_path, headless)
         self.__set_wait_time(self.__driver)
