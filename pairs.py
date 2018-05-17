@@ -24,8 +24,8 @@ class Pairs(object):
                        )
 
     @classmethod
-    def login_url(cls):
-        return cls.__LOGIN_URL
+    def user_data_path(cls):
+        return cls.__USER_DATA_PATH
 
     @classmethod
     def __open_driver(cls, driver_path, headless):
@@ -70,6 +70,8 @@ class Pairs(object):
     def __init__(self, driver_path='chromedriver', headless=None, setting_path='setting.ini'):
         self.__driver_path = driver_path
         self.__config = configparser.ConfigParser()
+        self.__config.read(setting_path)
+
         if headless is None:
             if self.__config['BROWSER']['HEADLESS'] in ['true', 'True']:
                 self.__headless = True
@@ -78,7 +80,6 @@ class Pairs(object):
         else:
             self.__headless = headless
 
-        self.__config.read(setting_path)
         self.__driver = self.__open_driver(driver_path, headless)
         self.__set_wait_time(self.__driver)
 
