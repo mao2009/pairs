@@ -58,6 +58,7 @@ class Pairs(object):
                 return
             if current_time >= timeout:
                 raise TimeoutError
+            time.sleep(interval)
 
     @staticmethod
     def __count_up(interval):
