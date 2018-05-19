@@ -17,6 +17,7 @@ from selenium.common import exceptions
 class Pairs(object):
 
     __USER_DATA_PATH = os.path.dirname(os.path.abspath(__file__)) + '/profile'
+    __PAIRS_URL = 'https://pairs.lv'
     __LOGIN_URL = 'https://pairs.lv/#/login'
     __SMS_LOGIN_URL = ('https://www.accountkit.com/v1.0/basic/dialog/sms_login/?app_id=358202260919932&country_code=81'
                        '&redirect=https%3A%2F%2Fpairs.lv%2F&state=8013c3f046e994a5dfa7156829be1c2bcc516ce0f26f476a01c7'
@@ -42,7 +43,7 @@ class Pairs(object):
         driver.set_page_load_timeout(page_load_timeout)
 
     def open(self):
-        self.__driver.get(self.__LOGIN_URL)
+        self.__driver.get(self.__PAIRS_URL)
         if self.__LOGIN_URL in self.__driver.current_url:
             self.__login(self.__driver, self.__config)
 
@@ -52,7 +53,7 @@ class Pairs(object):
         phone_number_element_name = 'phone_number'
 
         cls.__wait(driver, phone_number_element_name, By.NAME)
-        phone_number_text_box = cls.__select_element(driver)
+        phone_number_text_box = cls.__select_element(driver, phone_number_element_name, 'name')
         phone_number = config['DEFAULT']['PHONE_NUMBER']
         cls.__send_key(phone_number, phone_number_text_box)
 
