@@ -26,6 +26,14 @@ class Pairs(object):
 
     @classmethod
     def __open_driver(cls, driver_path, headless):
+        """
+        :param driver_path: Chrome driver's path
+        :type driver_path str
+        :param headless: Enable headless mode
+        :type headless bool
+        :return WebDriver object
+        :rtype object
+        """
         options = Options()
         if headless:
             options.add_argument('--headless')
@@ -36,6 +44,7 @@ class Pairs(object):
 
     @staticmethod
     def __set_wait_time(driver):
+
         wait_time = 0.5
         page_load_timeout = 30
 
@@ -44,7 +53,6 @@ class Pairs(object):
 
     def open(self):
         self.__driver.get(self.__PAIRS_URL)
-
         self.__wait_redirect(self.__driver)
         if self.__LOGIN_URL == self.__driver.current_url:
             self.__login(self.__driver, self.__config)
