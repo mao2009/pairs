@@ -44,8 +44,27 @@ class Pairs(object):
 
     def open(self):
         self.__driver.get(self.__PAIRS_URL)
-        if self.__LOGIN_URL in self.__driver.current_url:
+
+        self.__wait_redirect(self.__driver)
+        if self.__LOGIN_URL == self.__driver.current_url:
             self.__login(self.__driver, self.__config)
+
+    @classmethod
+    def __wait_redirect(cls, driver):
+        interval = 0.5
+        timeout = 30
+        for current_time in cls.__count_up(interval):
+            if cls.__PAIRS_URL != driver.current_url:
+                return
+            if current_time >= timeout:
+                raise TimeoutError
+
+    @staticmethod
+    def __count_up(interval):
+        current_time = 0
+        while True:
+            current_time += interval
+            yield current_time
 
     @classmethod
     def __login(cls, driver, config):
