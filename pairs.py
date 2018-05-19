@@ -38,7 +38,7 @@ class Pairs(object):
         if headless:
             options.add_argument('--headless')
         options.add_argument('--user-data-dir=' + cls.__USER_DATA_PATH)
-
+        options.add_argument('--disable-gpu')
         driver = webdriver.Chrome(executable_path=driver_path, chrome_options=options)
         return driver
 
