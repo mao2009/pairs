@@ -152,7 +152,7 @@ class Pairs(object):
         try:
             self.__driver.get(person_url)
             self.__wait(self.__driver, 'search_result_count')
-            time.sleep(__GENERAL_WAIT_TIME)
+            time.sleep(self.__GENERAL_WAIT_TIME)
         except (exceptions.WebDriverException, exceptions.TimeoutException) as err:
             print(err)
             self.__driver.quit()
