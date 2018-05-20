@@ -23,6 +23,7 @@ class Pairs(object):
                        '&redirect=https%3A%2F%2Fpairs.lv%2F&state=8013c3f046e994a5dfa7156829be1c2bcc516ce0f26f476a01c7'
                        '11c8023948e4&fbAppEventsEnabled=true&debug=true'
                        )
+    __GENERAL_WAIT_TIME = 3
 
     @classmethod
     def __open_driver(cls, driver_path, headless):
@@ -38,7 +39,6 @@ class Pairs(object):
         if headless:
             options.add_argument('--headless')
         options.add_argument('--user-data-dir=' + cls.__USER_DATA_PATH)
-        options.add_argument('--disable-gpu')
         driver = webdriver.Chrome(executable_path=driver_path, chrome_options=options)
         return driver
 
@@ -152,7 +152,7 @@ class Pairs(object):
         try:
             self.__driver.get(person_url)
             self.__wait(self.__driver, 'search_result_count')
-            time.sleep(1)
+            time.sleep(__GENERAL_WAIT_TIME)
         except (exceptions.WebDriverException, exceptions.TimeoutException) as err:
             print(err)
             self.__driver.quit()
