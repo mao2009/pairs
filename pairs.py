@@ -23,7 +23,7 @@ class Pairs(object):
                        '&redirect=https%3A%2F%2Fpairs.lv%2F&state=8013c3f046e994a5dfa7156829be1c2bcc516ce0f26f476a01c7'
                        '11c8023948e4&fbAppEventsEnabled=true&debug=true'
                        )
-    __GENERAL_WAIT_TIME = 3
+    __GENERAL_WAIT_TIME = 1
 
     @classmethod
     def __open_driver(cls, driver_path, headless):
@@ -46,7 +46,7 @@ class Pairs(object):
     def __set_wait_time(driver):
 
         wait_time = 0.5
-        page_load_timeout = 30
+        page_load_timeout = 20
 
         driver.implicitly_wait(wait_time)
         driver.set_page_load_timeout(page_load_timeout)
@@ -60,7 +60,7 @@ class Pairs(object):
     @classmethod
     def __wait_redirect(cls, driver):
         interval = 0.5
-        timeout = 30
+        timeout = 10
         for current_time in cls.__count_up(interval):
             if cls.__PAIRS_URL != driver.current_url:
                 return
