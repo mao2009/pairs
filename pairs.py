@@ -1,6 +1,7 @@
 import os
 import re
 import time
+import signal
 
 from optparse import OptionParser
 import configparser
@@ -96,6 +97,7 @@ class Pairs(object):
         self.__driver_path = driver_path
         self.__config = configparser.ConfigParser()
         self.__config.read(setting_path)
+        signal.signal(signal.SIGINT, self.__quit_driver)
 
         if headless is None:
             if self.__config['BROWSER']['HEADLESS'] in ['true', 'True']:
@@ -107,6 +109,9 @@ class Pairs(object):
 
         self.__driver = self.__open_driver(driver_path, headless)
         self.__set_wait_time(self.__driver)
+
+    def __quit_driver(self, signal, frame):
+        self.__driver.quit()
 
     @classmethod
     def __send_key(cls, value, element):
