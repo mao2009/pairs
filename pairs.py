@@ -113,6 +113,9 @@ class Pairs(object):
     def __quit_driver(self, signal, frame):
         self.__driver.quit()
 
+    def quit(self):
+        self.__driver.quit()
+
     @classmethod
     def __send_key(cls, value, element):
         element.send_keys(value)
