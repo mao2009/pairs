@@ -78,6 +78,8 @@ class Pairs(object):
 
     @classmethod
     def __login(cls, driver, config):
+
+        # sms認証画面に移行
         link = driver.find_element_by_link_text('こちら')
         link.click()
         phone_number_element_name = 'phone_number'
