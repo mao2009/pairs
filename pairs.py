@@ -78,7 +78,8 @@ class Pairs(object):
 
     @classmethod
     def __login(cls, driver, config):
-        driver.get(cls.__SMS_LOGIN_URL)
+        link = driver.find_element_by_link_text('こちら')
+        link.click()
         phone_number_element_name = 'phone_number'
 
         cls.__wait(driver, phone_number_element_name, By.NAME)
