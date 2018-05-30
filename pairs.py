@@ -159,17 +159,6 @@ class Pairs(object):
             else:
                 print('入力が不正です\nもう一度入力してください')
 
-    def __open_person_page(self, person_url):
-        try:
-            self.__driver.get(person_url)
-            self.__wait(self.__driver, 'search_result_count')
-            time.sleep(self.__GENERAL_WAIT_TIME)
-        except (exceptions.WebDriverException, exceptions.TimeoutException) as err:
-            print(err)
-            self.__driver.quit()
-            self.__driver = self.__open_driver(self.__driver_path, self.__headless)
-            self.__set_wait_time(self.__driver)
-
     def leave_footprints(self):
         total_number = self.__fetch_total_number(self.__driver)
         self.__ask_leave_footprints(total_number)
