@@ -173,11 +173,16 @@ class Pairs(object):
     def leave_footprints(self):
         total_number = self.__fetch_total_number(self.__driver)
         self.__ask_leave_footprints(total_number)
-        person_url = 'https://pairs.lv/#/search/one/'
+        person_url = 'https://pairs.lv/#/search/one/1'
+        self.__driver.get(person_url)
         progress_string = '\r現在{}人に足跡を付けました'
-        for i in range(1, total_number + 1):
-            self.__open_person_page(person_url + str(i))
+        print(progress_string.format('1'))
+        for i in range(2, total_number + 1):
+            self.__driver.find_element_by_xpath('//*[@id="pairs_search_page"]/div/div[2]/nav/ul/li[2]/a').click()
             print(progress_string.format(str(i)), end='')
+            if i % 500 == 0:
+                self.__driver.refresh()
+                time.sleep(20)
         print('\n')
         print('終了しました')
 
