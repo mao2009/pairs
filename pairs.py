@@ -174,7 +174,7 @@ class Pairs(object):
         total_number = self.__fetch_total_number(self.__driver)
         self.__ask_leave_footprints(total_number)
         person_url = 'https://pairs.lv/#/search/one/'
-        progress_string = '現在{}人に足跡を付けました\r'
+        progress_string = '\r現在{}人に足跡を付けました'
         for i in range(1, total_number + 1):
             self.__open_person_page(person_url + str(i))
             print(progress_string.format(str(i)), end='')
