@@ -20,10 +20,6 @@ class Pairs(object):
     __USER_DATA_PATH = os.path.dirname(os.path.abspath(__file__)) + '/profile'
     __PAIRS_URL = 'https://pairs.lv'
     __LOGIN_URL = 'https://pairs.lv/#/login'
-    __SMS_LOGIN_URL = ('https://www.accountkit.com/v1.0/basic/dialog/sms_login/?app_id=358202260919932&country_code=81'
-                       '&redirect=https%3A%2F%2Fpairs.lv%2F&state=8013c3f046e994a5dfa7156829be1c2bcc516ce0f26f476a01c7'
-                       '11c8023948e4&fbAppEventsEnabled=true&debug=true'
-                       )
     __GENERAL_WAIT_TIME = 1
 
     @classmethod
