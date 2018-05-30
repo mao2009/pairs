@@ -20,7 +20,7 @@ class Pairs(object):
     __USER_DATA_PATH = os.path.dirname(os.path.abspath(__file__)) + '/profile'
     __PAIRS_URL = 'https://pairs.lv'
     __LOGIN_URL = 'https://pairs.lv/#/login'
-    __GENERAL_WAIT_TIME = 1
+    __GENERAL_WAIT_TIME = 0.5
 
     @classmethod
     def __open_driver(cls, driver_path, headless):
@@ -164,6 +164,7 @@ class Pairs(object):
         print(progress_string.format('1'))
         for i in range(2, total_number + 1):
             self.__driver.find_element_by_xpath('//*[@id="pairs_search_page"]/div/div[2]/nav/ul/li[2]/a').click()
+            time.sleep(self.__GENERAL_WAIT_TIME)
             print(progress_string.format(str(i)), end='')
             if i % 500 == 0:
                 self.__driver.refresh()
