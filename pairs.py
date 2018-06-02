@@ -170,3 +170,25 @@ class Pairs(object):
         print('\n')
         print('終了しました')
 
+    def leave_footprints_for_like(self):
+        like_xpath = '/html/body/div[4]/div/div[1]/div/nav[1]/div[2]/ul/li[2]/a'
+        person_xpath = '/html/body/div[4]/div/div[2]/div[1]/div/div/div[2]/div[2]/ol/li[{}]/div[2]/div[2]/div[1]/p[2]/a'
+        next_page_xpath = '/html/body/div[4]/div/div[2]/div[1]/div/div/div[2]/div[2]/pager-nums-top/div/div/a[3]'
+        self.__driver.find_element_by_xpath(like_xpath).click()
+        time.sleep(1)
+
+        while True:
+            for i in range(0, 10):
+
+                try:
+                    self.__driver.find_element_by_xpath(person_xpath.format(str(i + 1))).click()
+                    time.sleep(self.__GENERAL_WAIT_TIME)
+                    self.__driver.find_element_by_class_name('modal_close').click()
+                except exceptions.NoSuchElementException:
+                    continue
+            try:
+                self.__driver.find_element_by_class_name(next_page_xpath)
+            except exceptions.ElementNotVisibleException:
+                break
+
+
