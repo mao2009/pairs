@@ -182,12 +182,14 @@ class Pairs(object):
 
                 try:
                     self.__driver.find_element_by_xpath(person_xpath.format(str(i + 1))).click()
-                    time.sleep(self.__GENERAL_WAIT_TIME)
+                    self.__wait(self.__driver, 'modal_close')
                     self.__driver.find_element_by_class_name('modal_close').click()
-                except exceptions.NoSuchElementException:
+                    self.__wait(self.__driver, 'button_white_a')
+                except (exceptions.NoSuchElementException, exceptions.UnexpectedAlertPresentException):
                     continue
             try:
-                self.__driver.find_element_by_class_name(next_page_xpath)
+                self.__driver.find_element_by_xpath(next_page_xpath).click()
+                time.sleep(1)
             except exceptions.ElementNotVisibleException:
                 break
 
