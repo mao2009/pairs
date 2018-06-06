@@ -164,8 +164,9 @@ class Pairs(object):
         print(progress_string.format('1'), end='')
         for i in range(2, total_number + 1):
             self.__driver.find_element_by_xpath('//*[@id="pairs_search_page"]/div/div[3]/div[2]/ul/li[3]/a').click()
-            time.sleep(self.__GENERAL_WAIT_TIME)
+            self.__wait(self.__driver, 'button_white_a')
             print(progress_string.format(str(i)), end='')
+            time.sleep(self.__GENERAL_WAIT_TIME)
 
         print('\n')
         print('終了しました')
@@ -181,10 +182,12 @@ class Pairs(object):
             for i in range(0, 10):
 
                 try:
-                    self.__driver.find_element_by_xpath(person_xpath.format(str(i + 1))).click()
+                    formatted_xpath = person_xpath.format(str(i))
+                    self.__driver.find_element_by_xpath(formatted_xpath).click()
                     self.__wait(self.__driver, 'modal_close')
+                    time.sleep(1)
                     self.__driver.find_element_by_class_name('modal_close').click()
-                    self.__wait(self.__driver, 'button_white_a')
+                    time.sleep(1)
                 except (exceptions.NoSuchElementException, exceptions.UnexpectedAlertPresentException):
                     continue
             try:
