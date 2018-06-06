@@ -163,7 +163,10 @@ class Pairs(object):
         progress_string = '\r現在{}人に足跡を付けました'
         print(progress_string.format('1'), end='')
         for i in range(2, total_number + 1):
-            self.__driver.find_element_by_xpath('//*[@id="pairs_search_page"]/div/div[3]/div[2]/ul/li[3]/a').click()
+            try:
+                self.__driver.find_element_by_xpath('//*[@id="pairs_search_page"]/div/div[3]/div[2]/ul/li[3]/a').click()
+            except exceptions.ElementNotVisibleException:
+                break
             self.__wait(self.__driver, 'button_white_a')
             print(progress_string.format(str(i)), end='')
             time.sleep(self.__GENERAL_WAIT_TIME)
