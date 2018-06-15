@@ -165,8 +165,12 @@ class Pairs(object):
         for i in range(2, total_number + 1):
             try:
                 self.__driver.find_element_by_xpath('//*[@id="pairs_search_page"]/div/div[3]/div[2]/ul/li[3]/a').click()
-            except exceptions.ElementNotVisibleException:
-                break
+            except (exceptions.ElementNotVisibleException, exceptions.WebDriverException):
+                if self.__driver.current_url.startswith(self.__LOGIN_URL):
+                    print('ログイン状態が切れました')
+                    print('終了します')
+                    quit(1)
+                continue
             self.__wait(self.__driver, 'button_white_a')
             print(progress_string.format(str(i)), end='')
             time.sleep(self.__GENERAL_WAIT_TIME)
