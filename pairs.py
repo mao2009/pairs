@@ -3,7 +3,7 @@ import re
 import time
 import signal
 
-from optparse import OptionParser
+from argparse import ArgumentParser
 import configparser
 
 from selenium import webdriver
@@ -43,13 +43,16 @@ class Pairs(object):
     def __set_wait_time(driver):
 
         wait_time = 0.5
-        page_load_timeout = 20
+        page_load_timeout = 10
 
         driver.implicitly_wait(wait_time)
         driver.set_page_load_timeout(page_load_timeout)
 
     def open(self):
-        self.__driver.get(self.__PAIRS_URL)
+        try:
+            self.__driver.get(self.__PAIRS_URL)
+        except exceptions.TimeoutException:
+            pass
         self.__wait_redirect(self.__driver)
         if self.__LOGIN_URL == self.__driver.current_url:
             self.__login(self.__driver, self.__config)
@@ -90,7 +93,10 @@ class Pairs(object):
         prompt = '認証コードを入力してください:'
         code = input(prompt)
         code_text_box = cls.__select_element(driver, code_element_name, 'name')
-        cls.__send_key(code, code_text_box)
+        try:
+            cls.__send_key(code, code_text_box)
+        except exceptions.TimeoutException:
+            pass
 
     def __init__(self, driver_path='chromedriver', headless=None, setting_path='setting.ini'):
         self.__driver_path = driver_path
@@ -204,3 +210,29 @@ class Pairs(object):
                 break
 
 
+def __main():
+    def main():
+        options = parse_option()
+        pairs = Pairs(chromedriver=options.chromedirver, headless=options.headless, setting_path='')
+        select_mode(pairs, options)
+
+    def parse_option():
+        parser = ArgumentParser()
+        parser.add_argument('-t', '--timeout', action='store', default=5)
+        parser.add_argument('-p', '--profile', action='store', default='profile')
+        parser.add_argument('-d', '--chrome_driver', action='store', default='chromedriver')
+        parser.add_argument('-h', '--headless', action='store_true', default=None)
+        mode = parser.add_mutually_exclusive_group()
+        mode.add_argument('-s', '--search', action='store_true', dest='search')
+        mode.add_argument('-l', '--like_from_me', action='store_true')
+        return parser.parse_args()
+
+    def select_mode(pairs, options):
+        if options.like_form_me:
+            pass
+
+    main()
+
+
+if __name__ == '__main__':
+    __main()
