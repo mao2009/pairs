@@ -119,6 +119,7 @@ class Pairs(object):
         self.__driver.quit()
 
     def quit(self):
+        self.__driver.close()
         self.__driver.quit()
 
     @classmethod
