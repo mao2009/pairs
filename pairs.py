@@ -186,17 +186,22 @@ class Pairs(object):
         print('終了しました')
 
     def leave_footprints_for_like(self):
-        like_xpath = '/html/body/div[4]/div/div[1]/div/nav[1]/div[2]/ul/li[2]/a'
-        person_xpath = '/html/body/div[4]/div/div[2]/div[1]/div/div/div[2]/div[2]/ol/li[{}]/div[2]/div[2]/div[1]/p[2]/a'
-        next_page_xpath = '/html/body/div[4]/div/div[2]/div[1]/div/div/div[2]/div[2]/pager-nums-top/div/div/a[3]'
-        self.__driver.find_element_by_xpath(like_xpath).click()
-        time.sleep(1)
+        person_xpath = '/html/body/div[2]/div/div[2]/div[1]/div/div/div[2]/div[2]/ol/li[{}]/div[2]/div[1]/ul/li/img'
+        page = 1
+        list_url = 'https://pairs.lv/#/like/from_me/'
 
         while True:
+            try:
+                self.__driver.get(list_url + str(page))
+            except exceptions.ElementNotVisibleException:
+                break
+            page = page + 1
+            time.sleep(1)
+
             for i in range(0, 10):
 
                 try:
-                    formatted_xpath = person_xpath.format(str(i))
+                    formatted_xpath = person_xpath.format(str(i+1))
                     self.__driver.find_element_by_xpath(formatted_xpath).click()
                     self.__wait(self.__driver, 'modal_close')
                     time.sleep(1)
@@ -204,11 +209,6 @@ class Pairs(object):
                     time.sleep(1)
                 except (exceptions.NoSuchElementException, exceptions.UnexpectedAlertPresentException):
                     continue
-            try:
-                self.__driver.find_element_by_xpath(next_page_xpath).click()
-                time.sleep(1)
-            except exceptions.ElementNotVisibleException:
-                break
 
 
 def __main():
