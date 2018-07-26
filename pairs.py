@@ -191,10 +191,7 @@ class Pairs(object):
         list_url = 'https://pairs.lv/#/like/from_me/'
 
         while True:
-            try:
-                self.__driver.get(list_url + str(page))
-            except exceptions.ElementNotVisibleException:
-                break
+            self.__driver.get(list_url + str(page))
             page = page + 1
             time.sleep(1)
 
@@ -207,8 +204,10 @@ class Pairs(object):
                     time.sleep(1)
                     self.__driver.find_element_by_class_name('modal_close').click()
                     time.sleep(1)
-                except (exceptions.NoSuchElementException, exceptions.UnexpectedAlertPresentException):
+                except exceptions.UnexpectedAlertPresentException:
                     continue
+                except exceptions.NoSuchElementException:
+                    return
 
 
 def __main():
