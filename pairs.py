@@ -167,16 +167,21 @@ class Pairs(object):
         self.__ask_leave_footprints(total_number)
         person_url = 'https://pairs.lv/#/search/one/1'
         self.__driver.get(person_url)
+        next_button_xpath = '//*[@id="pairs_search_page"]/div/div[3]/div[2]/ul/li[3]/a'
+        self.__wait(self.__driver, next_button_xpath, By.XPATH)
         progress_string = '\r現在{}人に足跡を付けました'
         print(progress_string.format('1'), end='')
+        next_button = self.__driver.find_element_by_xpath(next_button_xpath)
+
         for i in range(2, total_number + 1):
             try:
-                self.__driver.find_element_by_xpath('//*[@id="pairs_search_page"]/div/div[3]/div[2]/ul/li[3]/a').click()
-            except (exceptions.ElementNotVisibleException, exceptions.WebDriverException):
+                next_button.send_keys(Keys.ENTER)
+            except (exceptions.ElementNotVisibleException, exceptions.WebDriverException) as e:
                 if self.__driver.current_url.startswith(self.__LOGIN_URL):
                     print('ログイン状態が切れました')
                     print('終了します')
                     quit(1)
+                print(e)
                 continue
             self.__wait(self.__driver, 'button_white_a')
             print(progress_string.format(str(i)), end='')
