@@ -54,7 +54,7 @@ class Pairs(object):
         except exceptions.TimeoutException:
             pass
         self.__wait_redirect(self.__driver)
-        if self.__LOGIN_URL == self.__driver.current_url:
+        if self.__driver.current_url == self.__LOGIN_URL:
             self.__login(self.__driver, self.__config)
 
     @classmethod
@@ -62,7 +62,7 @@ class Pairs(object):
         interval = 0.5
         timeout = 10
         for current_time in cls.__count_up(interval):
-            if cls.__PAIRS_URL != driver.current_url:
+            if driver.current_url != cls.__LOGIN_URL:
                 return
             if current_time >= timeout:
                 raise TimeoutError
