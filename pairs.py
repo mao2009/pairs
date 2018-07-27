@@ -115,6 +115,11 @@ class Pairs(object):
         self.__config.read(setting_path)
         signal.signal(signal.SIGINT, self.__quit_driver)
 
+        self.__setting_headless_mode(headless)
+        self.__driver = self.__open_driver(driver_path, headless)
+        self.__set_wait_time(self.__driver)
+
+    def ___set_headless(self, headless):
         if headless is None:
             if self.__config['BROWSER']['HEADLESS'] in ['true', 'True']:
                 self.__headless = True
@@ -122,9 +127,6 @@ class Pairs(object):
                 self.__headless = False
         else:
             self.__headless = headless
-
-        self.__driver = self.__open_driver(driver_path, headless)
-        self.__set_wait_time(self.__driver)
 
     def __quit_driver(self, signal, frame):
         self.__driver.quit()
