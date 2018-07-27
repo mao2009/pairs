@@ -115,7 +115,7 @@ class Pairs(object):
         self.__config.read(setting_path)
         signal.signal(signal.SIGINT, self.__quit_driver)
 
-        self.__setting_headless_mode(headless)
+        self.___set_headless(headless)
         self.__driver = self.__open_driver(driver_path, headless)
         self.__set_wait_time(self.__driver)
 
