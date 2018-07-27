@@ -77,14 +77,15 @@ class Pairs(object):
 
     @classmethod
     def __login(cls, driver, config):
-
-        cls.__click_login_link
+        cls.__click_login_link(driver)
         cls.__send_phone_number(driver, config)
         cls.__send_auth_code(driver)
 
     @classmethod
     def __click_login_link(cls, driver):
-        link = driver.find_element_by_link_text('こちら')
+        login_page_xpath = '//*[@id="sendRegister1"]/div[2]/div/a'
+        cls.__wait(driver, login_page_xpath, By.XPATH)
+        link = driver.find_element_by_xpath(login_page_xpath)
         link.send_keys(Keys.ENTER)
 
     @classmethod
