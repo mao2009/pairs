@@ -78,9 +78,17 @@ class Pairs(object):
     @classmethod
     def __login(cls, driver, config):
 
-        # sms認証画面に移行
+        cls.__click_login_link
+        cls.__send_phone_number(driver, config)
+        cls.__send_auth_code(driver)
+
+    @classmethod
+    def __click_login_link(cls, driver):
         link = driver.find_element_by_link_text('こちら')
-        link.click()
+        link.send_keys(Keys.ENTER)
+
+    @classmethod
+    def __send_phone_number(cls, driver, config):
         phone_number_element_name = 'phone_number'
 
         cls.__wait(driver, phone_number_element_name, By.NAME)
@@ -88,6 +96,8 @@ class Pairs(object):
         phone_number = config['DEFAULT']['PHONE_NUMBER']
         cls.__send_key(phone_number, phone_number_text_box)
 
+    @classmethod
+    def __send_auth_code(cls, driver):
         code_element_name = 'confirmation_code'
         cls.__wait(driver, code_element_name, By.NAME)
         prompt = '認証コードを入力してください:'
