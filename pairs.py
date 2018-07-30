@@ -62,7 +62,7 @@ class Pairs(object):
         interval = 0.5
         timeout = 10
         for current_time in cls.__count_up(interval):
-            if driver.current_url != cls.__LOGIN_URL:
+            if driver.current_url != cls.__PAIRS_URL:
                 return
             if current_time >= timeout:
                 raise TimeoutError
