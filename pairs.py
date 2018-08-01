@@ -204,12 +204,15 @@ class Pairs(object):
         print('終了しました')
 
     def leave_footprints_for_like(self):
-        person_xpath = '/html/body/div[2]/div/div[2]/div[1]/div/div/div[2]/div[2]/ol/li[{}]/div[2]/div[1]/ul/li/img'
+        person_xpath = '/html/body/div[2]/div/div[2]/div[1]/div/div/div[2]/div[2]/ol/li[{}]/div[2]/div[2]/div[1]/p[2]/a'
         page = 1
         list_url = 'https://pairs.lv/#/like/from_me/'
 
         while True:
-            self.__driver.get(list_url + str(page))
+            try:
+                self.__driver.get(list_url + str(page))
+            except exceptions.TimeoutException:
+                pass
             page = page + 1
             time.sleep(1)
 
@@ -217,10 +220,10 @@ class Pairs(object):
 
                 try:
                     formatted_xpath = person_xpath.format(str(i+1))
-                    self.__driver.find_element_by_xpath(formatted_xpath).click()
+                    self.__driver.find_element_by_xpath(formatted_xpath).send_keys(Keys.ENTER)
                     self.__wait(self.__driver, 'modal_close')
                     time.sleep(1)
-                    self.__driver.find_element_by_class_name('modal_close').click()
+                    self.__driver.find_element_by_class_name('modal_close').send_keys(Keys.ENTER)
                     time.sleep(1)
                 except exceptions.UnexpectedAlertPresentException:
                     continue
