@@ -175,10 +175,18 @@ class Pairs(object):
             else:
                 print('入力が不正です\nもう一度入力してください')
 
-    def leave_footprints(self):
+    @classmethod
+    def counter(cls):
+
+        count = 0
+        while True:
+            count += 1
+            yield count
+
+    def leave_footprints(self, start=1):
         total_number = self.__fetch_total_number(self.__driver)
         self.__ask_leave_footprints(total_number)
-        person_url = 'https://pairs.lv/#/search/one/1'
+        person_url = 'https://pairs.lv/#/search/one/' + str(start)
         self.__driver.get(person_url)
         next_button_xpath = '//*[@id="pairs_search_page"]/div/div[3]/div[2]/ul/li[3]/a'
         self.__wait(self.__driver, next_button_xpath, By.XPATH)
@@ -186,16 +194,17 @@ class Pairs(object):
         print(progress_string.format('1'), end='')
         next_button = self.__driver.find_element_by_xpath(next_button_xpath)
 
-        for i in range(2, total_number + 1):
+        for i in self.counter():
             try:
                 next_button.send_keys(Keys.ENTER)
             except (exceptions.ElementNotVisibleException, exceptions.WebDriverException) as e:
                 if self.__driver.current_url.startswith(self.__LOGIN_URL):
-                    print('ログイン状態が切れました')
-                    print('終了します')
+                    self.__login(self.__driver, self.__config)
+                    self.leave_footprints(i)
                     quit(1)
-                print(e)
-                continue
+                break
+            except exceptions.TimeoutException:
+                self.__driver.refresh()
             self.__wait(self.__driver, 'button_white_a')
             print(progress_string.format(str(i)), end='')
             time.sleep(self.__GENERAL_WAIT_TIME)
