@@ -23,19 +23,21 @@ class Pairs(object):
     __GENERAL_WAIT_TIME = 0.2
 
     @classmethod
-    def __open_driver(cls, driver_path, headless):
+    def __open_driver(cls, driver_path, headless, user_data_path):
         """
         :param driver_path: Chrome driver's path
         :type driver_path str
         :param headless: Enable headless mode
         :type headless bool
+        :parm user_data_path
+        :type user_data_path str
         :return WebDriver object
         :rtype object
         """
         options = Options()
         if headless:
             options.add_argument('--headless')
-        options.add_argument('--user-data-dir=' + cls.__USER_DATA_PATH)
+        options.add_argument('--user-data-dir=' + user_data_path)
         driver = webdriver.Chrome(executable_path=driver_path, chrome_options=options)
         return driver
 
@@ -116,8 +118,15 @@ class Pairs(object):
         signal.signal(signal.SIGINT, self.__quit_driver)
 
         self.___set_headless(headless)
-        self.__driver = self.__open_driver(driver_path, headless)
+        user_data_path = self.__get_user_data_path()
+        self.__driver = self.__open_driver(driver_path, headless, user_data_path)
         self.__set_wait_time(self.__driver)
+
+    def __get_user_data_path(self):
+        if self.__config['BROWSER']['USER_DATA_PATH'] == '':
+            return self.__USER_DATA_PATH
+        else:
+            return self.__config['BROWSER']['USER_DATA_PATH']
 
     def ___set_headless(self, headless):
         if headless is None:
